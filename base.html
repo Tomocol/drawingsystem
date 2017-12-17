@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		#canvas{
+			background:#ccc;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="800"></canvas>
+
+	
+<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script>
+/*Canvasに関する記述をここから書いていきましょう*/
+const can = $("#canvas")[0];
+const ctx = can.getContext("2d");
+
+// ctx.fillStyle = "#f90";//塗りつぶしの色の指定
+// ctx.arc(400,400,40,0,Math.PI*2,true);
+// ctx.fill();
+
+//ctx.fillRect(100,100,100,100);
+//ctx.strokeRect(100,100,100,100);
+
+let x = e.offsetX;
+let y = e.offsetY;
+
+
+ctx.beginPath();
+ctx.moveTo(100,100);
+ctx.lineTo(200,200);
+ctx.stroke();
+ctx.closePath();
+
+oldX = x;
+oldY = y;
+
+
+
+	
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		/* CSSを書くところ */
+
+		body {
+			font-family: 'raleway', sans-serif;
+		}
+
+		.wrapper {
+			max-width: 800px;
+			margin: 0 auto;
+		}
+
+		.text-center {
+			text-align: center;
+		}
+
+		#canvas {
+			background: #ccc;
+		}
+
+		i {
+			margin-left: 20px;
+			cursor: pointer;
+		}
+
+		button,
+		input,
+		span {
+			margin-left: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<h1 class="text-center">Simple Paint</h1>
+		<p>
+			<input type="color" name="color" id="color">
+			<i id="pen" class="fa fa-pencil" aria-hidden="true"></i>
+			<i id="erase" class="fa fa-eraser" aria-hidden="true"></i>
+			<span>太さ</span>
+			<input type="range" name="range" id="range" min="1" max="100">
+			<span id="line">50</span>
+			<button type="button" id="strage_btn">保存</button>
+			<button type="button" id="reload_btn">リロード</button>
+		</p>
+		<canvas id="canvas" width="800" height="400"></canvas>
+		<canvas id="drawdata"></canvas>
+		<canvas id="reloaddata"></canvas>
+		<img src="" alt="" id="output">
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script>
+		// JavaScriptを足すところ
+
+		/*-------------------
+		 * お絵かきのおまじない2行
+		 *------------------*/
+		const can = document.getElementById("canvas");
+		const ctx = can.getContext("2d");
+
+		/*-------------------
+		 * データを保存するための場所「変数」の作成
+		 *------------------*/
+		let x, y; //終了点のX座標とY座標を代入する変数
+		let oldX = 0; //開始点のX座標を代入する
+		let oldY = 0; //開始点のY座標を代入する
+		let flag = false; //マウスが押されているか押されていないか判定する
+		/*-------------------
+		 * お絵かきのお道具箱から好きなものを決めて選ぶ
+		 *------------------*/
+
+		/*-------------------
+		 * マウスが押されているときに動くプログラム
+		 *------------------*/
+		$(can).on("mousedown", function (e) {
+			oldX = e.offsetX;
+			//console.log(e);
+			oldY = e.offsetY;
+			flag = true;
+		});
+
+
+
+		/*-------------------
+		 * マウスアップした時に動くプログラム
+		 *------------------*/
+		$(can).on("mouseup", function () {
+			flag = false;
+		});
+
+		/*-------------------
+		 * マウスが動いている時に動くプログラム
+		 *------------------*/
+		$(can).on("mousemove", function (e) {
+			if (flag == true) {
+				x = e.offsetX;
+				y = e.offsetY;
+				ctx.beginPath();
+				ctx.moveTo(oldX, oldY);
+				ctx.lineTo(x, y);
+				ctx.stroke();
+				ctx.closePath();
+
+				oldX = x;
+				oldY = y;
+
+			}
+			// x = e.offsetX;
+			// y = e.offsetY;
+			// ctx.beginPath();
+			// ctx.moveTo(oldX, oldY);
+			// ctx.lineTo(x, y);
+			// ctx.stroke();
+			// ctx.closePath();
+
+			// oldX = x;
+			// oldY = y;
+
+			// flag = false;
+		});
+
+		$(can).on("mouseout", function () {
+			flag = false;
+		})
+
+
+		/*-------------------
+		 * 色を変更した時に動くプログラム
+		 *------------------*/
+		$("#color").on("change", function () {
+			let color = $("#color").val();
+			ctx.strokeStyle = color;
+		});
+		/*-------------------
+		 * 線の太さを変更した時に動くプログラム	
+		 *------------------*/
+		//マウスをクリックした際に、レンジを動かす
+		$("#range").on("change", function () {
+			let range = $("#range").val();
+			//console.log(range);
+			ctx.lineWidth = range;
+			ctx.lineCap = "round"
+		})
+
+		/*-------------------
+		 * ペンと消しゴムの切り替えプログラム
+		 *------------------*/
+		$("#erase").on("click", function () {
+			let erase = $("#erase").val();
+			ctx.strokeStyle = "rgb(204, 204, 204)";
+		});
+
+		$("#pen").on("click", function () {
+			let pen = $("#pen").val();
+			ctx.strokeStyle = "rgb(0, 0, 0)";
+		});
+		/*-------------------
+		 * 保存ボタンのプログラム
+		 *------------------*/
+		 let draw =0;
+		$("#strage_btn").on("click", function () {
+			let draw ="";
+			let strage_btn = document.getElementById("drawdata");
+			let dataURL = canvas.toDataURL("image/jpeg", 1);
+			//console.log(dataURL);
+			let image = document.getElementById("output");
+			//console.log(image);
+			image.src = dataURL;
+			console.log(dataURL);
+			// localStorage.getItem("draw",dataURL)
+			// console.log(localStorage.getItem("draw",dataURL));
+		})
+
+		/*-------------------
+		 * リロードボタンのプログラム
+		 *------------------*/
+		$("#reload_btn").on("click", function () {
+			let reload_btn = document.getElementById("drawdata");
+
+		})
+
+
+		// 動かしてみよう！
+	</script>
+
+</body>
+
+</html>
